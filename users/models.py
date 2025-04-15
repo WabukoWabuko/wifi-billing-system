@@ -7,6 +7,14 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
         if not username:
             raise ValueError('The Username field must be set')
+        
+        # Handle full_name by splitting into first_name and last_name
+        full_name = extra_fields.pop('full_name', None)
+        if full_name:
+            names = full_name.split(' ', 1)
+            extra_fields['first_name'] = names[0]
+            extra_fields['last_name'] = names[1] if len(names) > 1 else ''
+        
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -24,12 +32,12 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(username, password, **extra_fields)
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True)  # Add email for notifications
+    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
-    address = models.TextField(blank=True, null=True)  # Add address for ISP records
+    address = models.TextField(blank=True, null=True)
     user_type = models.CharField(max_length=10, choices=[('PPPoE', 'PPPoE'), ('Hotspot', 'Hotspot')])
     status = models.CharField(max_length=10, choices=[('Active', 'Active'), ('Expired', 'Expired')], default='Active')
-    active_plan = models.ForeignKey('plans.Plan', on_delete=models.SET_NULL, null=True, blank=True, related_name='users')  # Add reference to active plan
+    active_plan = models.ForeignKey('plans.Plan', on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
     created_at = models.DateTimeField(auto_now_add=True)
 
     # Add related_name to avoid clashes
