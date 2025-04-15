@@ -1,0 +1,1 @@
+Dashboard: Cards (Today’s Income, Active Users, Online Devices), Weekly Sales Graph, Recent Transactions\nUser Management: Searchable table (username, full_name, phone, services, status, actions)\nNetwork Stats: Cards (online users, data usage graphs, session logs)
