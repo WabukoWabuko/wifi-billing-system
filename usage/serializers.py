@@ -6,4 +6,4 @@ from .models import Usage
 class UsageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usage
-        fields = '__all__'
+        fields = ['id', 'user', 'data_used', 'data_limit', 'session_start', 'session_end', 'status']
