@@ -3,18 +3,16 @@
 import os
 import django
 from django.contrib.auth import get_user_model
-
-# Set up Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wifibilling.settings')
-django.setup()
-
-# Now we can import models
 from plans.models import Plan
 from transactions.models import Transaction
 from usage.models import Usage
 from tickets.models import Ticket
 from notifications.models import Notification
 from django.utils import timezone
+
+# Set up Django environment
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wifibilling.settings')
+django.setup()
 
 User = get_user_model()
 
