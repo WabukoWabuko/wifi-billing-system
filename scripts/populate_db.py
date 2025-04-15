@@ -2,9 +2,6 @@
 
 import os
 import django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wifibilling.settings')
-django.setup()
-
 from django.contrib.auth import get_user_model
 from plans.models import Plan
 from transactions.models import Transaction
@@ -13,9 +10,16 @@ from tickets.models import Ticket
 from notifications.models import Notification
 from django.utils import timezone
 
+# Set the DJANGO_SETTINGS_MODULE environment variable
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wifibilling.settings')
+
+# Initialize Django
+django.setup()
+
 User = get_user_model()
 
 def populate_db():
+    # Create users
     user1 = User.objects.create_user(
         username='user1',
         password='pass123',
@@ -37,6 +41,7 @@ def populate_db():
         status='Active'
     )
 
+    # Create plans
     plan1 = Plan.objects.create(
         name='3mbps plan',
         price=1000.00,
@@ -54,11 +59,13 @@ def populate_db():
         is_active=True
     )
 
+    # Assign plans to users
     user1.active_plan = plan1
     user2.active_plan = plan2
     user1.save()
     user2.save()
 
+    # Create transactions
     Transaction.objects.create(
         user=user1,
         plan=plan1,
@@ -78,6 +85,7 @@ def populate_db():
         created_at=timezone.now()
     )
 
+    # Create usage records
     Usage.objects.create(
         user=user1,
         data_used=500.00,
@@ -93,6 +101,7 @@ def populate_db():
         status='Active'
     )
 
+    # Create tickets
     Ticket.objects.create(
         user=user1,
         subject='Connection Issue',
@@ -110,6 +119,7 @@ def populate_db():
         created_at=timezone.now()
     )
 
+    # Create notifications
     Notification.objects.create(
         user=user1,
         message='Payment received for 3mbps plan',
