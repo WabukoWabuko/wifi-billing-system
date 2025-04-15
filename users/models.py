@@ -24,9 +24,12 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(username, password, **extra_fields)
 
 class User(AbstractUser):
+    email = models.EmailField(unique=True)  # Add email for notifications
     phone = models.CharField(max_length=15)
+    address = models.TextField(blank=True, null=True)  # Add address for ISP records
     user_type = models.CharField(max_length=10, choices=[('PPPoE', 'PPPoE'), ('Hotspot', 'Hotspot')])
     status = models.CharField(max_length=10, choices=[('Active', 'Active'), ('Expired', 'Expired')], default='Active')
+    active_plan = models.ForeignKey('plans.Plan', on_delete=models.SET_NULL, null=True, blank=True, related_name='users')  # Add reference to active plan
     created_at = models.DateTimeField(auto_now_add=True)
 
     # Add related_name to avoid clashes
@@ -45,7 +48,7 @@ class User(AbstractUser):
         verbose_name='user permissions',
     )
 
-    objects = CustomUserManager()  # Use the custom manager
+    objects = CustomUserManager()
 
     class Meta:
         indexes = [
