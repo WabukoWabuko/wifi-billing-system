@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Button, Card, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card, Nav } from 'react-bootstrap'; // Removed Navbar
 import { Link } from 'react-router-dom';
 import { FaUser, FaDollarSign, FaTicketAlt, FaChartLine } from 'react-icons/fa';
 import './Landing.css'; // Custom styles
@@ -117,7 +117,7 @@ const Landing = () => {
       {/* Footer */}
       <footer className="footer py-4 bg-dark text-white text-center">
         <Container>
-          <p>&copy; 2025 WiFi Billing System. All rights reserved.</p>
+          <p>© 2025 WiFi Billing System. All rights reserved.</p>
           <Nav className="justify-content-center">
             <Nav.Link as={Link} to="/login" className="text-white">Login</Nav.Link>
             <Nav.Link as={Link} to="/register" className="text-white">Register</Nav.Link>
