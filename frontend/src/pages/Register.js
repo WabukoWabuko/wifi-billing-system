@@ -23,7 +23,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/register/', formData);
+      const response = await axios.post('/api/users/register/', formData);
       if (response.status === 201) {
         navigate('/login'); // Redirect to login on success
       }

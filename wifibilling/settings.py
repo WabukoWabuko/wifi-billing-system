@@ -21,13 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'djoser',
-    'drf_yasg',
-    'users', 
-    'plans', 
+    'rest_framework_simplejwt',
+    'users',
+    'plans',
     'transactions',
-    'usage',  
-    'tickets', 
+    'usage',
+    'tickets',
     'notifications',
 ]
 
@@ -130,3 +129,11 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
+
+# JWT settings (optional customization)
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}

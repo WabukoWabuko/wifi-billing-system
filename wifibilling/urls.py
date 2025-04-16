@@ -18,13 +18,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('djoser.urls')),
-    path('api/auth/', include('djoser.urls.authtoken')),
     path('api/users/', include('users.urls')),
     path('api/plans/', include('plans.urls')),
     path('api/transactions/', include('transactions.urls')),
     path('api/usage/', include('usage.urls')),
     path('api/tickets/', include('tickets.urls')),
     path('api/notifications/', include('notifications.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

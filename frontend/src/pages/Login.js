@@ -12,9 +12,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/login/', { email, password });
+      const response = await axios.post('/api/users/login/', { email, password });
       if (response.status === 200) {
-        navigate('/dashboard'); // Redirect to dashboard on success
+        // Store the JWT access token in local storage
+        localStorage.setItem('accessToken', response.data.access);
+        // Check user role and redirect accordingly
+        const user = response.data.user;
+        if (user.is_superuser) {
+          navigate('/admin'); // Redirect admin to Django admin panel (or a custom admin page)
+        } else {
+          navigate('/dashboard'); // Redirect regular user to dashboard
+        }
       }
     } catch (err) {
       setError('Invalid credentials. Please try again.');
