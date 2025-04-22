@@ -1,0 +1,11 @@
+// This is the architecture for our WiFi billing system! I’m so pumped to see how all these pieces come together. – Me
+
+graph TD
+    A[ReactJS Frontend] -->|REST API| B[Django Backend]
+    B -->|Reads/Writes| C[SQLite3 Database]
+    B -->|Async Tasks| D[Celery]
+    D -->|Message Broker| E[Redis]
+    A -->|Visualizes| F[Mermaid.js Graphs]
+    B -->|API Docs| G[Swagger]
+    C -->|Schema| H[dbiagram.io]
+    A -->|Payments| I[M-Pesa Gateway]

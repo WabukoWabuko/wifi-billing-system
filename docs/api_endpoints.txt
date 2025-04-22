@@ -1,1 +1,0 @@
-Users: /api/users/ (GET, POST), /api/users/{id}/ (GET, PUT, DELETE)\nPlans: /api/plans/ (GET, POST), /api/plans/{id}/ (GET, PUT, DELETE)\nTransactions: /api/transactions/ (GET, POST)\nUsage: /api/usage/ (GET)\nTickets: /api/tickets/ (GET, POST), /api/tickets/{id}/ (GET, PUT)\nNotifications: /api/notifications/ (GET, POST)

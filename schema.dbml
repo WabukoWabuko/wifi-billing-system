@@ -1,0 +1,60 @@
+// I’m designing the database schema for our massive WiFi billing system! This is gonna handle millions of users, starting with Kenya. – Me
+
+Table users {
+  id integer [primary key]
+  username varchar
+  phone varchar
+  role varchar [note: "Can be 'user', 'admin', or 'reseller'"]
+  mac_address varchar
+  status varchar [note: "Can be 'active', 'expired', or 'offline'"]
+  created_at timestamp
+}
+
+Table packages {
+  id integer [primary key]
+  name varchar
+  speed varchar [note: "e.g., '15Mbps'"]
+  price decimal
+  duration integer [note: "Duration in days"]
+}
+
+Table user_packages {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  package_id integer [ref: > packages.id]
+  start_date timestamp
+  expiry_date timestamp
+  data_limit decimal
+  data_used decimal
+}
+
+Table transactions {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  amount decimal
+  payment_method varchar [note: "e.g., 'M-Pesa'"]
+  transaction_id varchar
+  created_at timestamp
+}
+
+Table usage_logs {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  upload decimal
+  download decimal
+  created_at timestamp
+}
+
+Table notifications {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  message varchar
+  created_at timestamp
+}
+
+// Relationships for scalability and tracking
+Ref: user_packages.user_id > users.id
+Ref: user_packages.package_id > packages.id
+Ref: transactions.user_id > users.id
+Ref: usage_logs.user_id > users.id
+Ref: notifications.user_id > users.id
