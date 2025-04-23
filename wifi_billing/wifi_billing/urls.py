@@ -1,3 +1,8 @@
+"""
+URL configuration for wifi_billing project.
+This is where all our API routes will live! – Me
+"""
+
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
