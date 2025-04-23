@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import UsageLog
+from .serializers import UsageLogSerializer
 
-# Create your views here.
+# Views for Usage Logs. This will show how much data users are consuming! – Me
+class UsageLogViewSet(viewsets.ModelViewSet):
+    queryset = UsageLog.objects.all()
+    serializer_class = UsageLogSerializer
+
+    def get_queryset(self):
+        return UsageLog.objects.filter(user=self.request.user)

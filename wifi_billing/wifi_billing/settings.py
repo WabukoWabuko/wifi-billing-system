@@ -132,6 +132,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Additionals
 # CORS settings for React frontend
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -161,3 +162,6 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
+
+# Telling Django to use our custom User model. This fixes the clash with auth.User! – Me
+AUTH_USER_MODEL = 'users.User'
