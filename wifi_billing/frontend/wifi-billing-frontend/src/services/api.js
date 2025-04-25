@@ -1,4 +1,4 @@
-// I’m bypassing the proxy to directly hit the backend at http://localhost:8000 for debugging! – Me
+// I’m improving error handling in api.js for better debugging! – Me
 import axios from 'axios';
 
 const api = axios.create({
@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  console.log('Making request to:', config.baseURL + config.url);
+  console.log('Making request to:', config.baseURL + config.url, 'with data:', config.data);
   return config;
 }, (error) => {
   console.error('Request error:', error);
@@ -23,9 +23,12 @@ api.interceptors.request.use((config) => {
 
 // Add a response interceptor for better error logging
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('Response received:', response.data);
+    return response;
+  },
   (error) => {
-    console.error('Response error:', error.response || error.message);
+    console.error('Response error:', error.response ? error.response.data : error.message);
     return Promise.reject(error);
   }
 );

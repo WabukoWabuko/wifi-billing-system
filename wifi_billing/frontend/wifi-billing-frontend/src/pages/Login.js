@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login, getUser } from '../services/api';
 
-// A login page to get users into the system! I’m improving error messages for the presentation! – Me
+// A login page to get users into the system! I’m adding a link to the register page! – Me
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -64,6 +64,9 @@ const Login = () => {
           {error && <p className="text-danger">{error}</p>}
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
+        <p className="text-center mt-3">
+          Don’t have an account? <Link to="/register">Register here</Link>
+        </p>
       </div>
     </div>
   );
