@@ -1,8 +1,8 @@
-// I’m adding a register function for new users! Let’s make registration smooth for the presentation! – Me
+// I’m bypassing the proxy to directly hit the backend at http://localhost:8000 for debugging! – Me
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8000/api', // Directly point to the backend
   headers: {
     'Content-Type': 'application/json',
   },

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../services/api';
 
-// Registration page for new users! I’m making it user-friendly for the presentation! – Me
+// Registration page for new users! I’m improving error messages for the presentation! – Me
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,15 @@ const Register = () => {
       alert('Registration successful! Please log in.');
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed. Please try again.');
+      if (err.response) {
+        if (err.response.status === 404) {
+          setError('Registration endpoint not found. Ensure the backend is running at http://localhost:8000 and the endpoint /api/auth/users/ is available.');
+        } else {
+          setError(`Registration failed: ${err.response.data.detail || JSON.stringify(err.response.data) || 'Unknown error'}`);
+        }
+      } else {
+        setError('Unable to connect to the server. Please ensure the backend is running at http://localhost:8000.');
+      }
       console.error('Registration error:', err);
     }
   };

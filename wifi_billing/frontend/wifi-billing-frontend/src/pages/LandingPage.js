@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// Landing page for the WiFi billing system! I’m making it a 10/5 star UI/UX for the presentation! – Me
+// Landing page for the WiFi billing system! I’m fixing ESLint warnings for accessibility! – Me
 const LandingPage = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -106,9 +106,15 @@ const LandingPage = () => {
         <div className="container text-center">
           <p className="mb-0">© 2025 WiFi Billing System. All rights reserved.</p>
           <div className="mt-2">
-            <a href="#" className="text-white mx-2"><i className="bi bi-facebook"></i></a>
-            <a href="#" className="text-white mx-2"><i className="bi bi-twitter"></i></a>
-            <a href="#" className="text-white mx-2"><i className="bi bi-linkedin"></i></a>
+            <button className="btn btn-link text-white mx-2" aria-label="Facebook">
+              <i className="bi bi-facebook"></i>
+            </button>
+            <button className="btn btn-link text-white mx-2" aria-label="Twitter">
+              <i className="bi bi-twitter"></i>
+            </button>
+            <button className="btn btn-link text-white mx-2" aria-label="LinkedIn">
+              <i className="bi bi-linkedin"></i>
+            </button>
           </div>
         </div>
       </footer>
