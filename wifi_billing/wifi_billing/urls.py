@@ -1,6 +1,6 @@
 """
 URL configuration for wifi_billing project.
-This is where all our API routes will live! – Me
+This is where all our API routes will live! I’m fixing the 404 for /api/auth/users/! – Me
 """
 
 from django.contrib import admin
@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/transactions/', include('transactions.urls')),
     path('api/usage/', include('usage.urls')),
     path('api/notifications/', include('notifications.urls')),
-    path('api/auth/', include('djoser.urls.jwt')), # Keep only JWT routes
+    path('api/auth/', include('djoser.urls')), # Includes /api/auth/users/
+    path('api/auth/', include('djoser.urls.jwt')), # Includes /api/auth/jwt/create/
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
