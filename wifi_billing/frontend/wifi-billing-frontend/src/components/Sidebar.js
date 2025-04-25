@@ -1,14 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-// Sidebar component for navigation! I’m making it sleek like in the GalaxyRAD images! – Me
+// Sidebar component for navigation! I’m adding logout logic here for a smoother experience! – Me
 const Sidebar = ({ role }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    navigate('/login');
+  };
+
   return (
     <div className="bg-dark text-white vh-100 p-3" style={{ width: '250px' }}>
       <h3 className="text-center">WiFi Billing</h3>
       <ul className="nav flex-column">
         <li className="nav-item">
-          <Link className="nav-link text-white" to="/">Dashboard</Link>
+          <Link className="nav-link text-white" to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/dashboard'}>Dashboard</Link>
         </li>
         {role === 'user' && (
           <>
@@ -47,7 +55,7 @@ const Sidebar = ({ role }) => {
           </>
         )}
         <li className="nav-item">
-          <Link className="nav-link text-white" to="/logout">Logout</Link>
+          <button className="nav-link text-white bg-transparent border-0" onClick={handleLogout}>Logout</button>
         </li>
       </ul>
     </div>

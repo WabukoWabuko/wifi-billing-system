@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, getUser } from '../services/api';
 
-// A login page to get users into the system! I’m keeping it simple but sleek! – Me
+// A login page to get users into the system! I’m fixing the 404 error and improving error messages for the presentation! – Me
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +21,18 @@ const Login = () => {
       else if (user.role === 'reseller') navigate('/reseller');
       else navigate('/');
     } catch (err) {
-      setError('Invalid credentials');
+      if (err.response) {
+        if (err.response.status === 404) {
+          setError('Login endpoint not found. Is the backend running at http://localhost:8000?');
+        } else if (err.response.status === 401) {
+          setError('Invalid credentials. Please check your username and password.');
+        } else {
+          setError(`Login failed: ${err.response.data.detail || 'Unknown error'}`);
+        }
+      } else {
+        setError('Unable to connect to the server. Please ensure the backend is running.');
+      }
+      console.error('Login error:', err);
     }
   };
 

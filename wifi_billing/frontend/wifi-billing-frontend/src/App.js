@@ -4,10 +4,11 @@ import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ResellerDashboard from './pages/ResellerDashboard';
 import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 
-// Updated App.js with authentication! I’m making sure only logged-in users can access dashboards! – Me
+// Updated App.js for routing! I’m removing onEnter and adding a landing page for the presentation! – Me
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState(null);
@@ -21,21 +22,15 @@ function App() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    setIsAuthenticated(false);
-    setRole(null);
-  };
-
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={isAuthenticated ? <Navigate to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/'} /> : <Login />} />
-        <Route path="/" element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/dashboard'} /> : <Login />} />
+        <Route path="/dashboard" element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />} />
         <Route path="/admin" element={isAuthenticated && role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />} />
         <Route path="/reseller" element={isAuthenticated && role === 'reseller' ? <ResellerDashboard /> : <Navigate to="/login" />} />
-        <Route path="/logout" element={<Navigate to="/login" onEnter={handleLogout} />} />
+        <Route path="/logout" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
