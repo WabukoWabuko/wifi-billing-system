@@ -1,19 +1,13 @@
 from celery import shared_task
-from .models import UsageLog, UserPackage
-from django.utils import timezone
+from packages.models import UserPackage # Corrected import
+from .models import UsageLog
 
-# A task to update data usage for users. I’m simulating usage updates here! – Me
 @shared_task
-def update_data_usage(user_id, upload, download):
-    user_package = UserPackage.objects.filter(user_id=user_id).first()
-    if user_package:
-        user_package.data_used += (upload + download)
-        user_package.save()
-
-        UsageLog.objects.create(
-            user_id=user_id,
-            upload=upload,
-            download=download,
-            created_at=timezone.now()
-        )
-    return f"Updated usage for user {user_id}"
+def log_usage(user_package_id, bytes_used):
+    user_package = UserPackage.objects.get(id=user_package_id)
+    UsageLog.objects.create(
+        user_package=user_package,
+        bytes_used=bytes_used
+    )
+    user_package.bytes_used += bytes_used
+    user_package.save()
