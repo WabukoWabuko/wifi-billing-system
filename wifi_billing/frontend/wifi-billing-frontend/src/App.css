@@ -1,4 +1,4 @@
-/* Custom styles for our WiFi billing system! I’m keeping it sleek and modern! – Me */
+/* Custom styles for our WiFi billing system! I’m polishing the UI for tomorrow’s presentation! – Me */
 body {
   background-color: #f8f9fa;
 }
@@ -8,7 +8,32 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.card-title {
+  font-weight: 600;
+}
+
+.nav-link {
+  color: #fff !important;
+  padding: 10px 15px;
+}
+
 .nav-link:hover {
   background-color: #495057;
   border-radius: 5px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.bg-dark {
+  background-color: #212529 !important;
+}
+
+.text-primary {
+  color: #007bff !important;
+}
+
+.container-fluid {
+  background-color: #fff;
 }
