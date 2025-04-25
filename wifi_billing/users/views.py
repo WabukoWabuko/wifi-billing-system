@@ -1,14 +1,13 @@
-from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from .models import User
 from .serializers import UserSerializer
 
-# Views for the User API. I’m making sure admins can manage users easily! – Me
-class UserViewSet(viewsets.ModelViewSet):
+# I’m creating views for the users app! – Me
+class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # If the user is an admin, they can see all users; otherwise, only themselves
-        if self.request.user.role == 'admin':
-            return User.objects.all()
-        return User.objects.filter(id=self.request.user.id)
+        return User.objects.filter(username=self.request.user.username)

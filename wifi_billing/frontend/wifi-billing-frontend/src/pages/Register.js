@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../services/api';
 
-// Registration page for new users! I’m improving error messages for the presentation! – Me
+// Registration page for new users! I’m fixing the password field mismatch! – Me
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [rePassword, setRePassword] = useState(''); // Renamed to rePassword for clarity
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState('user');
   const [error, setError] = useState('');
@@ -14,12 +14,12 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (password !== password2) {
+    if (password !== rePassword) {
       setError('Passwords do not match');
       return;
     }
     try {
-      await register(username, password, phone, role);
+      await register(username, password, phone, role, rePassword); // Pass rePassword
       alert('Registration successful! Please log in.');
       navigate('/login');
     } catch (err) {
@@ -89,8 +89,8 @@ const Register = () => {
             <input
               type="password"
               className="form-control"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
+              value={rePassword}
+              onChange={(e) => setRePassword(e.target.value)}
               required
             />
           </div>

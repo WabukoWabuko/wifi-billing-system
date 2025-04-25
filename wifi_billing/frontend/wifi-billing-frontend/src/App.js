@@ -4,12 +4,12 @@ import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ResellerDashboard from './pages/ResellerDashboard';
 import Login from './pages/Login';
-import LandingPage from './pages/LandingPage';
 import Register from './pages/Register';
+import LandingPage from './pages/LandingPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 
-// Updated App.js with registration route! Ready for the presentation! – Me
+// I’m ensuring proper routing after login! – Me
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState(null);
@@ -17,6 +17,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userRole = localStorage.getItem('role');
+    console.log('App.js useEffect - token:', token, 'role:', userRole);
     if (token) {
       setIsAuthenticated(true);
       setRole(userRole);
@@ -27,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/dashboard'} /> : <Login />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/dashboard'} /> : <Login setIsAuthenticated={setIsAuthenticated} setRole={setRole} />} />
         <Route path="/register" element={isAuthenticated ? <Navigate to={role === 'admin' ? '/admin' : role === 'reseller' ? '/reseller' : '/dashboard'} /> : <Register />} />
         <Route path="/dashboard" element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />} />
         <Route path="/admin" element={isAuthenticated && role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />} />

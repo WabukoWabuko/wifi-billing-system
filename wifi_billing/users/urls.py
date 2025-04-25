@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import UserViewSet
+from django.urls import path
+from . import views
 
-# URLs for the User API. This will handle CRUD operations! – Me
-router = DefaultRouter()
-router.register(r'', UserViewSet)
-
+# I’m defining the URLs for the users app! – Me
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', views.UserList.as_view(), name='user-list'),
 ]

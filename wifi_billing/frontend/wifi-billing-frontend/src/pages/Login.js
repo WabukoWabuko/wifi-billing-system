@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login, getUser } from '../services/api';
 
-// A login page to get users into the system! I’m adding a link to the register page! – Me
-const Login = () => {
+// A login page to get users into the system! I’m ensuring the redirect updates App.js state! – Me
+const Login = ({ setIsAuthenticated, setRole }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,14 +12,34 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log('Attempting login with username:', username);
       const response = await login(username, password);
+      console.log('Login response:', response.data);
       localStorage.setItem('token', response.data.access);
+      console.log('Token stored in localStorage:', localStorage.getItem('token'));
+
       const userResponse = await getUser();
-      const user = userResponse.data[0];
+      console.log('User response:', userResponse.data);
+      const user = userResponse.data[0]; // Assuming the API returns a list of users
+      if (!user) {
+        throw new Error('User data not found');
+      }
+
+      console.log('User role:', user.role);
       localStorage.setItem('role', user.role);
-      if (user.role === 'admin') navigate('/admin');
-      else if (user.role === 'reseller') navigate('/reseller');
-      else navigate('/');
+      setIsAuthenticated(true); // Update App.js state
+      setRole(user.role); // Update App.js state
+
+      if (user.role === 'admin') {
+        console.log('Redirecting to /admin');
+        navigate('/admin');
+      } else if (user.role === 'reseller') {
+        console.log('Redirecting to /reseller');
+        navigate('/reseller');
+      } else {
+        console.log('Redirecting to /dashboard');
+        navigate('/dashboard');
+      }
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {

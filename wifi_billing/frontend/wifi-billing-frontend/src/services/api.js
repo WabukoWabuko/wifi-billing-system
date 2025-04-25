@@ -1,8 +1,8 @@
-// I’m improving error handling in api.js for better debugging! – Me
+// I’m updating the register function to send re_password! – Me
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api', // Directly point to the backend
+  baseURL: 'http://localhost:8000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  console.log('Making request to:', config.baseURL + config.url, 'with data:', config.data);
+  console.log('Making request to:', config.baseURL + config.url, 'with data:', config.data, 'and headers:', config.headers);
   return config;
 }, (error) => {
   console.error('Request error:', error);
@@ -34,7 +34,7 @@ api.interceptors.response.use(
 );
 
 export const login = (username, password) => api.post('/auth/jwt/create/', { username, password });
-export const register = (username, password, phone, role) => api.post('/auth/users/', { username, password, phone, role });
+export const register = (username, password, phone, role, rePassword) => api.post('/auth/users/', { username, password, re_password: rePassword, phone, role });
 export const getUser = () => api.get('/users/');
 export const getPackages = () => api.get('/packages/packages/');
 export const getUserPackages = () => api.get('/packages/user-packages/');
