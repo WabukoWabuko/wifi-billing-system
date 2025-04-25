@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { login, getUser } from '../services/api';
 
 // A login page to get users into the system! I’m keeping it simple but sleek! – Me
 const Login = () => {

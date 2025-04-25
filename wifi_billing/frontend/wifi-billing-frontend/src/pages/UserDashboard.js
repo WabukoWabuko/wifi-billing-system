@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
-import DashboardCard from '../components/DashboardCard';
 import UsageGraph from '../components/UsageGraph';
-import { getUser, getUserPackages, getUsageLogs, getNotifications } from '../services/api';
+import { getUser, getUserPackages, getUsageLogs, getNotifications, getTransactions } from '../services/api';
 
-// User dashboard! I’m making it look sleek like in GalaxyRAD Image 1! – Me
+// User dashboard! I removed DashboardCard and usage since we weren’t using them. Clean code for the win! – Me
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
   const [userPackage, setUserPackage] = useState(null);
-  const [usage, setUsage] = useState({ upload: 0, download: 0 });
   const [notifications, setNotifications] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userRes = await getUser();
-        setUser(userRes.data[0]); // Assuming the first user is the logged-in user
+        setUser(userRes.data[0]);
 
         const packageRes = await getUserPackages();
         setUserPackage(packageRes.data[0]);
 
         const usageRes = await getUsageLogs();
-        const latestUsage = usageRes.data[usageRes.data.length - 1] || { upload: 0, download: 0 };
-        setUsage(latestUsage);
+        // I removed the unused 'usage' variable since we’re already showing data_used in UsageGraph! – Me
 
         const notifRes = await getNotifications();
         setNotifications(notifRes.data);
+
+        const transRes = await getTransactions();
+        setTransactions(transRes.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -62,6 +63,35 @@ const UserDashboard = () => {
                 {notifications.map((notif) => (
                   <p key={notif.id}>{notif.message} - {new Date(notif.created_at).toLocaleString()}</p>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-4">
+          <div className="col-md-12">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Recent Transactions</h5>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Amount</th>
+                      <th>Payment Method</th>
+                      <th>Transaction ID</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transactions.map((trans) => (
+                      <tr key={trans.id}>
+                        <td>Ksh {trans.amount}</td>
+                        <td>{trans.payment_method}</td>
+                        <td>{trans.transaction_id}</td>
+                        <td>{new Date(trans.created_at).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
